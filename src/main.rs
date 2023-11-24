@@ -49,7 +49,7 @@ fn main() {
 
             let d: Vec<String> = fs::read_to_string(data_file_path)
                 .expect("could not read file")
-                .split("\n")
+                .lines()
                 .map(|s| s.to_string())
                 .collect();
 
@@ -100,5 +100,4 @@ fn main() {
         },
     }
 
-    println!("Hello, world!");
 }
