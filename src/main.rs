@@ -2,8 +2,6 @@ use clap::{Args, Subcommand, Parser};
 use std::fs;
 
 mod day1;
-mod day2;
-mod day3;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -27,11 +25,14 @@ enum Commands {
 struct Exec{
     /// The string to reverse
     day: Option<u16>,
+    // flag to use testdata instead of real data. defaults to using real data
+    #[clap(default_value_t = false, short, long)]
+    test: bool,
 }
 
 #[derive(Debug, Args)]
 struct Init{
-    /// The string to inspect
+    /// Creates module, and updates main file with import + match statement 
     ///
     day: Option<u16>,
 }
@@ -41,10 +42,19 @@ fn main() {
 
     match cli.command {
         Commands::Exec(exec) => {
+            let data_file_path = match exec.test {
+                true => format!("./src/day{}/testdata", exec.day.unwrap()),
+                false => format!("./src/day{}/data", exec.day.unwrap()),
+            };
+
+            let d: Vec<String> = fs::read_to_string(data_file_path)
+                .expect("could not read file")
+                .split("\n")
+                .map(|s| s.to_string())
+                .collect();
+
             match exec.day {
-                Some(1) => day1::day1::execute(),
-                Some(2) => day2::day2::execute(),
-                Some(3) => day3::day3::execute(),
+                Some(1) => day1::day1::execute(d),
                 //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
@@ -65,7 +75,7 @@ fn main() {
                             // create day{DAY}.rs
                             let _ = fs::write(
                             format!("./src/day{}/day{}.rs",day, day),
-                                "pub fn execute() {\n   dbg!(\"not implemented yet\");\n}"
+                                "pub fn execute(data: Vec<String>) {\n   dbg!(\"data\");\n}"
                                 );
                             // create mod.rs
                             let _ = fs::write(format!("./src/day{}/mod.rs", day), format!("pub mod day{};", day));
@@ -75,7 +85,7 @@ fn main() {
                             let _backup = fs::write("./main_backup.rs", current_main.clone());
 
                             // new main.rs
-                            let add_case = current_main.replace("//#CASEMARKER\n", format!("Some({d}) => day{d}::day{d}::execute(),\n               //#CASEMARKER\n", d=day).as_str());
+                            let add_case = current_main.replace("//#CASEMARKER\n", format!("Some({d}) => day{d}::day{d}::execute(d),\n               //#CASEMARKER\n", d=day).as_str());
                             let add_import = add_case.replace("//#IMPORTMARKER\n", format!("mod day{};\n//#IMPORTMARKER\n", day).as_str());
                             //write new main.rs
                             let _new_main = fs::write("./src/main.rs", add_import);

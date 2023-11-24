@@ -1,3 +1,3 @@
-pub fn execute() {
-   dbg!("not implemented yet");
+pub fn execute(data: Vec<String>) {
+   dbg!(data);
 }
