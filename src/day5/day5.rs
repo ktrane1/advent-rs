@@ -40,8 +40,22 @@ pub fn execute(data: Vec<String>) {
         let from = spl[3].parse::<usize>().unwrap() - 1;
         let to = spl[5].parse::<usize>().unwrap() - 1;
 
+        // part1
+        // for _ in 0..num_moved {
+            // let popped = state[from].pop().expect("could not pop from stack");
+            // state[to].push(popped);
+        // }
+
+
+        // part2 - lazy
+        let mut temp: Vec<char> = vec![];
         for _ in 0..num_moved {
             let popped = state[from].pop().expect("could not pop from stack");
+            temp.push(popped);
+        }
+
+        for _ in 0..num_moved {
+            let popped = temp.pop().expect("could not pop from stack");
             state[to].push(popped);
         }
     }
