@@ -9,10 +9,10 @@ pub fn state_and_operations(data: Vec<String>) -> (Vec<Vec<char>>, Vec<String>) 
         state_of_stacks.push(Vec::new());
     }
 
-    let (_, stacks_temp) = state.split_last().unwrap(); 
+    let (_, stacks_temp) = state.split_last().unwrap();
     let mut stacks = stacks_temp.to_owned();
     stacks.reverse();
-     
+
     for s in stacks.iter() {
         for (i, c) in s.char_indices() {
             match c {
@@ -22,9 +22,8 @@ pub fn state_and_operations(data: Vec<String>) -> (Vec<Vec<char>>, Vec<String>) 
                 _ => {
                     let stack_i = i / 4;
                     state_of_stacks[stack_i].push(c);
-                },
-
-            } 
+                }
+            }
         }
     }
 
@@ -33,7 +32,7 @@ pub fn state_and_operations(data: Vec<String>) -> (Vec<Vec<char>>, Vec<String>) 
 }
 
 pub fn execute(data: Vec<String>) {
-    let (mut state, ops) = state_and_operations(data); 
+    let (mut state, ops) = state_and_operations(data);
     for op in ops.iter() {
         let spl = op.split(" ").collect::<Vec<&str>>();
         let num_moved = spl[1].parse::<i32>().unwrap();
@@ -42,10 +41,9 @@ pub fn execute(data: Vec<String>) {
 
         // part1
         // for _ in 0..num_moved {
-            // let popped = state[from].pop().expect("could not pop from stack");
-            // state[to].push(popped);
+        // let popped = state[from].pop().expect("could not pop from stack");
+        // state[to].push(popped);
         // }
-
 
         // part2 - lazy
         let mut temp: Vec<char> = vec![];
@@ -61,11 +59,9 @@ pub fn execute(data: Vec<String>) {
     }
 
     // get top items from stacks
-    let result = state.iter_mut()
-        .fold(String::from(""), |acc, stack| {
-            return format!("{}{}", acc, stack.pop().unwrap());
-        });
+    let result = state.iter_mut().fold(String::from(""), |acc, stack| {
+        return format!("{}{}", acc, stack.pop().unwrap());
+    });
 
     dbg!(result);
 }
-

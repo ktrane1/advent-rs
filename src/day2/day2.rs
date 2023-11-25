@@ -13,7 +13,7 @@ enum Move {
 enum Type {
     X,
     Y,
-    Z
+    Z,
 }
 
 impl FromStr for Type {
@@ -28,7 +28,6 @@ impl FromStr for Type {
         }
     }
 }
-
 
 impl FromStr for Move {
     type Err = ();
@@ -46,52 +45,44 @@ impl FromStr for Move {
     }
 }
 
-
 impl Move {
     pub fn score(opp: Move, me: Move) -> i32 {
-
         match opp {
-            Move::A(_) => {
-                match me {
-                    Move::X(m) => {
-                        return 3 + m.val;
-                    },
-                    Move::Y(m) => {
-                        return 6 + m.val;
-                    },
-                    Move::Z(m) => {
-                        return 0 + m.val;
-                    },
-                    _ => {},
+            Move::A(_) => match me {
+                Move::X(m) => {
+                    return 3 + m.val;
                 }
+                Move::Y(m) => {
+                    return 6 + m.val;
+                }
+                Move::Z(m) => {
+                    return 0 + m.val;
+                }
+                _ => {}
             },
-            Move::B(_) => {
-                match me {
-                    Move::X(m) => {
-                        return 0 + m.val;
-                    },
-                    Move::Y(m) => {
-                        return 3 + m.val;
-                    },
-                    Move::Z(m) => {
-                        return 6 + m.val;
-                    },
-                    _ => {},
+            Move::B(_) => match me {
+                Move::X(m) => {
+                    return 0 + m.val;
                 }
+                Move::Y(m) => {
+                    return 3 + m.val;
+                }
+                Move::Z(m) => {
+                    return 6 + m.val;
+                }
+                _ => {}
             },
-            Move::C(_) => {
-                match me {
-                    Move::X(m) => {
-                        return 6 + m.val;
-                    },
-                    Move::Y(m) => {
-                        return 0 + m.val;
-                    },
-                    Move::Z(m) => {
-                        return 3 + m.val;
-                    },
-                    _ => {},
+            Move::C(_) => match me {
+                Move::X(m) => {
+                    return 6 + m.val;
                 }
+                Move::Y(m) => {
+                    return 0 + m.val;
+                }
+                Move::Z(m) => {
+                    return 3 + m.val;
+                }
+                _ => {}
             },
             _ => {}
         }
@@ -99,32 +90,31 @@ impl Move {
     }
 }
 
-
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 struct Rock {
     val: i32,
 }
 
 impl Default for Rock {
     fn default() -> Rock {
-        Rock{val: 1}
+        Rock { val: 1 }
     }
 }
 
 #[derive(Debug, PartialEq)]
 struct Paper {
-    val: i32
+    val: i32,
 }
 
 impl Default for Paper {
     fn default() -> Paper {
-        Paper{val: 2}
+        Paper { val: 2 }
     }
 }
 
 #[derive(Debug, PartialEq)]
 struct Scissors {
-    val: i32
+    val: i32,
 }
 
 impl Default for Scissors {
@@ -135,55 +125,29 @@ impl Default for Scissors {
 
 fn get_me(opp: &Move, t: Type) -> Move {
     match opp {
-        &Move::A(_) => {
-            match t {
-                Type::X => {
-                    Move::Z(Scissors::default())
-                },
-                Type::Y => {
-                    Move::X(Rock::default())
-                },
-                Type::Z => {
-                    Move::Y(Paper::default())
-                },
-            }
+        &Move::A(_) => match t {
+            Type::X => Move::Z(Scissors::default()),
+            Type::Y => Move::X(Rock::default()),
+            Type::Z => Move::Y(Paper::default()),
         },
-        &Move::B(_) => {
-            match t {
-                Type::X => {
-                    Move::X(Rock::default())
-                },
-                Type::Y => {
-                    Move::Y(Paper::default())
-                },
-                Type::Z => {
-                    Move::Z(Scissors::default())
-                },
-            }
+        &Move::B(_) => match t {
+            Type::X => Move::X(Rock::default()),
+            Type::Y => Move::Y(Paper::default()),
+            Type::Z => Move::Z(Scissors::default()),
         },
-        &Move::C(_) => {
-            match t {
-                Type::X => {
-                    Move::Y(Paper::default())
-                },
-                Type::Y => {
-                    Move::Z(Scissors::default())
-                },
-                Type::Z => {
-                    Move::X(Rock::default())
-                },
-            }
+        &Move::C(_) => match t {
+            Type::X => Move::Y(Paper::default()),
+            Type::Y => Move::Z(Scissors::default()),
+            Type::Z => Move::X(Rock::default()),
         },
-        _ => {
-            Move::Z(Scissors::default())
-        },
+        _ => Move::Z(Scissors::default()),
     }
 }
 
 pub fn execute(data: Vec<String>) {
     let mut score = 0;
     for ele in data.clone() {
-        let v: Vec<&str> = ele.split(" ").collect(); 
+        let v: Vec<&str> = ele.split(" ").collect();
         let opp = Move::from_str(v.get(0).unwrap()).expect("could not convert to enum");
         let me = Move::from_str(v.get(1).unwrap()).expect("could not convert to enum");
         score += Move::score(opp, me);
@@ -192,7 +156,7 @@ pub fn execute(data: Vec<String>) {
 
     let mut part2_score = 0;
     for ele in data {
-        let v: Vec<&str> = ele.split(" ").collect(); 
+        let v: Vec<&str> = ele.split(" ").collect();
         let opp = Move::from_str(v.get(0).unwrap()).expect("could not convert to enum");
         let t = Type::from_str(v.get(1).unwrap()).expect("could not convert to enum");
         let me = get_me(&opp, t);
@@ -200,6 +164,4 @@ pub fn execute(data: Vec<String>) {
     }
 
     dbg!(part2_score);
-
-
 }
