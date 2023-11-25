@@ -6,6 +6,7 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day25;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -63,6 +64,7 @@ fn main() {
                 Some(3) => day3::day3::execute(d),
                 Some(4) => day4::day4::execute(d),
                 Some(5) => day5::day5::execute(d),
+                Some(25) => day25::day25::execute(d),
                 //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
