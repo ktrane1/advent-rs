@@ -4,6 +4,7 @@ use std::fs;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -60,6 +61,7 @@ fn main() {
                 Some(2) => day2::day2::execute(d),
                 Some(3) => day3::day3::execute(d),
                 
+                Some(4) => day4::day4::execute(d),
                 //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
