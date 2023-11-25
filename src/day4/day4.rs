@@ -1,8 +1,10 @@
 fn get_min_and_max(s: &str) -> (i32, i32) {
-    let l = s.split("-").collect::<Vec<&str>>()[0];
-    let r = s.split("-").collect::<Vec<&str>>()[1];
+    let spl = s.split("-").collect::<Vec<&str>>();
+    let l = spl[0];
+    let r = spl[1];
     return (l.to_string().parse().unwrap(), r.to_string().parse().unwrap());
 }
+
 pub fn execute(data: Vec<String>) {
     let result = data.clone().iter()
         .fold(0, |acc, pairs| {
