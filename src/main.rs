@@ -60,7 +60,6 @@ fn main() {
                 Some(1) => day1::day1::execute(d),
                 Some(2) => day2::day2::execute(d),
                 Some(3) => day3::day3::execute(d),
-                
                 Some(4) => day4::day4::execute(d),
                 //#CASEMARKER
                 None => todo!(),
