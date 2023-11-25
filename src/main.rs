@@ -3,6 +3,7 @@ use std::fs;
 
 mod day1;
 mod day2;
+mod day3;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -57,7 +58,9 @@ fn main() {
             match exec.day {
                 Some(1) => day1::day1::execute(d),
                 Some(2) => day2::day2::execute(d),
-               //#CASEMARKER
+                Some(3) => day3::day3::execute(d),
+                
+                //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
             }
@@ -87,7 +90,7 @@ fn main() {
                             let _backup = fs::write("./main_backup.rs", current_main.clone());
 
                             // new main.rs
-                            let add_case = current_main.replace("//#CASEMARKER\n", format!("Some({d}) => day{d}::day{d}::execute(d),\n               //#CASEMARKER\n", d=day).as_str());
+                            let add_case = current_main.replace("//#CASEMARKER\n", format!("Some({d}) => day{d}::day{d}::execute(d),\n                //#CASEMARKER\n", d=day).as_str());
                             let add_import = add_case.replace("//#IMPORTMARKER\n", format!("mod day{};\n//#IMPORTMARKER\n", day).as_str());
                             //write new main.rs
                             let _new_main = fs::write("./src/main.rs", add_import);

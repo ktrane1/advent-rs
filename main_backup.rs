@@ -2,6 +2,7 @@ use clap::{Args, Subcommand, Parser};
 use std::fs;
 
 mod day1;
+mod day2;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -55,7 +56,8 @@ fn main() {
 
             match exec.day {
                 Some(1) => day1::day1::execute(d),
-                //#CASEMARKER
+                Some(2) => day2::day2::execute(d),
+               //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
             }
