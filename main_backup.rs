@@ -1,8 +1,9 @@
-use clap::{Args, Subcommand, Parser};
+use clap::{Args, Parser, Subcommand};
 use std::fs;
 
 mod day1;
 mod day2;
+mod day25;
 mod day3;
 mod day4;
 mod day5;
@@ -26,7 +27,7 @@ enum Commands {
 }
 
 #[derive(Debug, Args)]
-struct Exec{
+struct Exec {
     /// The string to reverse
     day: Option<u16>,
     // flag to use testdata instead of real data. defaults to using real data
@@ -35,8 +36,8 @@ struct Exec{
 }
 
 #[derive(Debug, Args)]
-struct Init{
-    /// Creates module, and updates main file with import + match statement 
+struct Init {
+    /// Creates module, and updates main file with import + match statement
     ///
     day: Option<u16>,
 }
@@ -63,11 +64,12 @@ fn main() {
                 Some(3) => day3::day3::execute(d),
                 Some(4) => day4::day4::execute(d),
                 Some(5) => day5::day5::execute(d),
+                Some(25) => day25::day25::execute(d),
                 //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
             }
-        },
+        }
         Commands::Init(init) => {
             match init.day {
                 Some(day) => {
@@ -75,18 +77,21 @@ fn main() {
                         Ok(_) => {
                             println!("Directory {} already exists dummy", day);
                             return ();
-                        },
+                        }
                         Err(_) => {
                             let _dir = fs::create_dir(format!("./src/day{}", day));
                             let _d = fs::File::create(format!("./src/day{}/data", day));
                             let _test_d = fs::File::create(format!("./src/day{}/testdata", day));
                             // create day{DAY}.rs
                             let _ = fs::write(
-                            format!("./src/day{}/day{}.rs",day, day),
-                                "pub fn execute(data: Vec<String>) {\n   dbg!(\"data\");\n}"
-                                );
+                                format!("./src/day{}/day{}.rs", day, day),
+                                "pub fn execute(data: Vec<String>) {\n   dbg!(\"data\");\n}",
+                            );
                             // create mod.rs
-                            let _ = fs::write(format!("./src/day{}/mod.rs", day), format!("pub mod day{};", day));
+                            let _ = fs::write(
+                                format!("./src/day{}/mod.rs", day),
+                                format!("pub mod day{};", day),
+                            );
 
                             // backup current main.rs
                             let current_main = fs::read_to_string("./src/main.rs").unwrap();
@@ -94,18 +99,20 @@ fn main() {
 
                             // new main.rs
                             let add_case = current_main.replace("//#CASEMARKER\n", format!("Some({d}) => day{d}::day{d}::execute(d),\n                //#CASEMARKER\n", d=day).as_str());
-                            let add_import = add_case.replace("//#IMPORTMARKER\n", format!("mod day{};\n//#IMPORTMARKER\n", day).as_str());
+                            let add_import = add_case.replace(
+                                "//#IMPORTMARKER\n",
+                                format!("mod day{};\n//#IMPORTMARKER\n", day).as_str(),
+                            );
                             //write new main.rs
                             let _new_main = fs::write("./src/main.rs", add_import);
                             println!("created the files");
-                        },
+                        }
                     };
-                },
+                }
                 None => {
                     println!("Need to provide a day for init subcommand dummy");
                 }
             }
-        },
+        }
     }
-
 }
