@@ -31,21 +31,21 @@ fn part1(data: Vec<String>) {
         .map(|s| s.parse::<usize>().unwrap())
         .sum::<usize>();
 
-        dbg!(result_part1);
+    dbg!(result_part1);
 }
 
 fn digit_to_word_digit(s: &str) -> &str {
     match s {
         "one" => "1",
-        "two" => "2", 
-        "three" => "3", 
-        "four" => "4", 
+        "two" => "2",
+        "three" => "3",
+        "four" => "4",
         "five" => "5",
         "six" => "6",
-        "seven" => "7", 
-        "eight" => "8", 
-        "nine" =>"9",
-        _ => s
+        "seven" => "7",
+        "eight" => "8",
+        "nine" => "9",
+        _ => s,
     }
 }
 
@@ -69,7 +69,7 @@ fn part2(data: Vec<String>) {
                             first_i_val = l;
                             first_i = x;
                         }
-                    },
+                    }
                     None => {}
                 }
             }
@@ -82,17 +82,20 @@ fn part2(data: Vec<String>) {
                 match found {
                     Some(x) => {
                         if x >= last_i {
-                            last_i_val= l;
+                            last_i_val = l;
                             last_i = x;
                         }
-                    },
+                    }
                     None => {}
                 }
             }
 
-            let r = format!("{}{}", digit_to_word_digit(first_i_val), digit_to_word_digit(last_i_val));
+            let r = format!(
+                "{}{}",
+                digit_to_word_digit(first_i_val),
+                digit_to_word_digit(last_i_val)
+            );
             return r;
-            
         })
         .map(|s| s.parse::<usize>().unwrap())
         .sum::<usize>();
