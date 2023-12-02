@@ -104,6 +104,6 @@ fn part2(data: Vec<String>) {
 }
 
 pub fn execute(data: Vec<String>) {
-    // part1(data.clone());
+    part1(data.clone());
     part2(data);
 }
