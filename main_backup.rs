@@ -3,6 +3,7 @@ use std::fs;
 
 mod day1;
 mod day2;
+mod day3;
 //#IMPORTMARKER
 
 /// A fictional versioning CLI
@@ -57,6 +58,7 @@ fn main() {
             match exec.day {
                 Some(1) => day1::day1::execute(d),
                 Some(2) => day2::day2::execute(d),
+                Some(3) => day3::day3::execute(d),
                 //#CASEMARKER
                 None => todo!(),
                 _ => todo!(),
